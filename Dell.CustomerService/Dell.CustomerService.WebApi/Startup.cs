@@ -37,7 +37,13 @@ namespace Dell.CustomerService.Web.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc();
+            app.UseMvc(routes =>
+            {
+	            routes.MapRoute(
+		            name: "default",
+		            template: "{controller}/{action}",
+		            defaults: new { controller = "Home", action = "Index" });
+			});
         }
     }
 }

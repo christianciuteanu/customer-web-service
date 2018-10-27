@@ -28,20 +28,17 @@ namespace Dell.CustomerService.Domain.Repositories
 		public async Task Create(TEntity entity)
 		{
 			await _dbContext.Set<TEntity>().AddAsync(entity);
-			await _dbContext.SaveChangesAsync();
 		}
 
 		public async Task Update(Guid id, TEntity entity)
 		{
 			_dbContext.Set<TEntity>().Update(entity);
-			await _dbContext.SaveChangesAsync();
 		}
 
 		public async Task Delete(Guid id)
 		{
 			var entity = await _dbContext.Set<TEntity>().FindAsync(id);
 			_dbContext.Set<TEntity>().Remove(entity);
-			await _dbContext.SaveChangesAsync();
 		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using Dell.CustomerService.Domain.Repositories;
+﻿using System.Threading.Tasks;
+using Dell.CustomerService.Domain.Repositories;
 
 namespace Dell.CustomerService.Domain
 {
@@ -20,5 +21,14 @@ namespace Dell.CustomerService.Domain
 			}
 		}
 
+		public async Task SaveAsync()
+		{
+			await _customersDbContext.SaveChangesAsync();
+		}
+
+		public void Dispose()
+		{
+			_customersDbContext.Dispose();
+		}
 	}
 }

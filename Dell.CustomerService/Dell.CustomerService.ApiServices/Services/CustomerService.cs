@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Dell.CustomerService.Domain;
 using Dell.CustomerService.Domain.Data.Entities;
 using Dell.CustomerService.Web.ApiContracts.Customers;
@@ -18,28 +19,23 @@ namespace Dell.CustomerService.Web.ApiServices.Services
 		{
 			var existingCustomer = await _unitOfWork.CustomerRepository.GetCustomerByEmailAsync(requestData.Email);
 
-			return await AddUpdateCustomerAsync(existingCustomer, requestData);
-		}
-
-		private async Task<CustomerResponseData> AddUpdateCustomerAsync(Customer dbCustomer, CustomerRequestData requestData)
-		{
-			if (dbCustomer != null)
+			if (existingCustomer != null)
 			{
-				dbCustomer.Name = requestData.Name;
-				await _unitOfWork.CustomerRepository.Update(dbCustomer.Id, dbCustomer);
-				return new CustomerResponseData
-				{
-					Id = dbCustomer.Id,
-					Name = dbCustomer.Name,
-					Email = dbCustomer.Email
-				};
+				return await UpdateCustomerAsync(existingCustomer, requestData);
 			}
 
+			return await AddCustomerAsync(requestData);
+		}
+
+		private async Task<CustomerResponseData> AddCustomerAsync(CustomerRequestData requestData)
+		{
 			await _unitOfWork.CustomerRepository.Create(new Customer
 			{
 				Name = requestData.Name,
 				Email = requestData.Email
 			});
+
+			await _unitOfWork.SaveAsync();
 
 			var createdCustomer = await _unitOfWork.CustomerRepository.GetCustomerByEmailAsync(requestData.Email);
 			return new CustomerResponseData
@@ -47,6 +43,18 @@ namespace Dell.CustomerService.Web.ApiServices.Services
 				Email = createdCustomer.Email,
 				Name = createdCustomer.Name,
 				Id = createdCustomer.Id
+			};
+		}
+
+		private async Task<CustomerResponseData> UpdateCustomerAsync(Customer dbCustomer, CustomerRequestData requestData)
+		{
+			dbCustomer.Name = requestData.Name;
+			await _unitOfWork.CustomerRepository.Update(dbCustomer.Id, dbCustomer);
+			return new CustomerResponseData
+			{
+				Id = dbCustomer.Id,
+				Name = dbCustomer.Name,
+				Email = dbCustomer.Email
 			};
 		}
 	}
