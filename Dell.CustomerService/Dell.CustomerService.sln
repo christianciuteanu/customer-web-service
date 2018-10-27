@@ -3,7 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dell.CustomerService.WebApi", "Dell.CustomerService.WebApi\Dell.CustomerService.WebApi.csproj", "{B088853F-DE54-46F5-BC91-4F9D762C6842}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dell.CustomerService.Web.Api", "Dell.CustomerService.WebApi\Dell.CustomerService.Web.Api.csproj", "{B088853F-DE54-46F5-BC91-4F9D762C6842}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dell.CustomerService.Web.ApiContracts", "Dell.CustomerService.ApiContracts\Dell.CustomerService.Web.ApiContracts.csproj", "{98A515B5-6628-45AF-98B1-FF6D3E9035C9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dell.CustomerService.Web.ApiServices", "Dell.CustomerService.ApiServices\Dell.CustomerService.Web.ApiServices.csproj", "{DED54615-7FB1-421A-B71D-BD0D8C49D40F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dell.CustomerService.Domain", "Dell.CustomerService.Repositories\Dell.CustomerService.Domain.csproj", "{A404A762-0AF3-49B6-848B-3F4E49BA7A7C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dell.Customers.Web", "Dell.Customers.Web", "{5BE9573B-EFAD-4F08-9321-D38B499D0DF7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dell.Customers.Domain", "Dell.Customers.Domain", "{49150001-FF95-42EA-B9FF-734856251CA7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dell.CustomerService.Domain.Data", "Dell.CustomerService.Domain.Data\Dell.CustomerService.Domain.Data.csproj", "{69FF2761-1906-44ED-8371-6272E9CEE27D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +27,32 @@ Global
 		{B088853F-DE54-46F5-BC91-4F9D762C6842}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B088853F-DE54-46F5-BC91-4F9D762C6842}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B088853F-DE54-46F5-BC91-4F9D762C6842}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98A515B5-6628-45AF-98B1-FF6D3E9035C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98A515B5-6628-45AF-98B1-FF6D3E9035C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98A515B5-6628-45AF-98B1-FF6D3E9035C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98A515B5-6628-45AF-98B1-FF6D3E9035C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DED54615-7FB1-421A-B71D-BD0D8C49D40F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DED54615-7FB1-421A-B71D-BD0D8C49D40F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DED54615-7FB1-421A-B71D-BD0D8C49D40F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DED54615-7FB1-421A-B71D-BD0D8C49D40F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A404A762-0AF3-49B6-848B-3F4E49BA7A7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A404A762-0AF3-49B6-848B-3F4E49BA7A7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A404A762-0AF3-49B6-848B-3F4E49BA7A7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A404A762-0AF3-49B6-848B-3F4E49BA7A7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69FF2761-1906-44ED-8371-6272E9CEE27D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69FF2761-1906-44ED-8371-6272E9CEE27D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69FF2761-1906-44ED-8371-6272E9CEE27D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69FF2761-1906-44ED-8371-6272E9CEE27D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B088853F-DE54-46F5-BC91-4F9D762C6842} = {5BE9573B-EFAD-4F08-9321-D38B499D0DF7}
+		{98A515B5-6628-45AF-98B1-FF6D3E9035C9} = {5BE9573B-EFAD-4F08-9321-D38B499D0DF7}
+		{DED54615-7FB1-421A-B71D-BD0D8C49D40F} = {5BE9573B-EFAD-4F08-9321-D38B499D0DF7}
+		{A404A762-0AF3-49B6-848B-3F4E49BA7A7C} = {49150001-FF95-42EA-B9FF-734856251CA7}
+		{69FF2761-1906-44ED-8371-6272E9CEE27D} = {49150001-FF95-42EA-B9FF-734856251CA7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6FBD24F5-84E2-4FFF-AE56-5EA3C342D464}

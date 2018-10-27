@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dell.CustomerService.ApiContracts\Dell.CustomerService.Web.ApiContracts.csproj" />
+    <ProjectReference Include="..\Dell.CustomerService.Domain.Data\Dell.CustomerService.Domain.Data.csproj" />
+    <ProjectReference Include="..\Dell.CustomerService.Repositories\Dell.CustomerService.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
