@@ -22,9 +22,9 @@ namespace Dell.CustomerService.Web.Api
         public void ConfigureServices(IServiceCollection services)
         {
 			services.AddDbContext<CustomersDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
-	        services.AddTransient<ICustomerService, Web.ApiServices.Services.CustomerService>();
-			services.AddScoped<ICustomerRepository, CustomerRepository>();
-	        services.AddTransient<IUnitOfWork, UnitOfWork>();
+	        services.AddTransient<ICustomerService, ApiServices.Services.CustomerService>();
+			services.AddTransient<ICustomerRepository, CustomerRepository>();
+	        services.AddTransient<IUnitOfWork, UnitOfWork>().AddScoped<DbContext, CustomersDbContext>();
 
 			services.AddMvc();
 		}

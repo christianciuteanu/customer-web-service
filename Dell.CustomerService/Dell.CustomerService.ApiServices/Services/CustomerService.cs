@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Dell.CustomerService.Domain;
 using Dell.CustomerService.Domain.Data.Entities;
+using Dell.CustomerService.Domain.Repositories;
 using Dell.CustomerService.Web.ApiContracts.Customers;
 
 namespace Dell.CustomerService.Web.ApiServices.Services
@@ -21,7 +22,7 @@ namespace Dell.CustomerService.Web.ApiServices.Services
 
 			if (existingCustomer != null)
 			{
-				return await UpdateCustomerAsync(existingCustomer, requestData);
+				return UpdateCustomerAsync(existingCustomer, requestData);
 			}
 
 			return await AddCustomerAsync(requestData);
@@ -35,8 +36,6 @@ namespace Dell.CustomerService.Web.ApiServices.Services
 				Email = requestData.Email
 			});
 
-			await _unitOfWork.SaveAsync();
-
 			var createdCustomer = await _unitOfWork.CustomerRepository.GetCustomerByEmailAsync(requestData.Email);
 			return new CustomerResponseData
 			{
@@ -46,10 +45,10 @@ namespace Dell.CustomerService.Web.ApiServices.Services
 			};
 		}
 
-		private async Task<CustomerResponseData> UpdateCustomerAsync(Customer dbCustomer, CustomerRequestData requestData)
+		private CustomerResponseData UpdateCustomerAsync(Customer dbCustomer, CustomerRequestData requestData)
 		{
 			dbCustomer.Name = requestData.Name;
-			await _unitOfWork.CustomerRepository.Update(dbCustomer.Id, dbCustomer);
+			_unitOfWork.CustomerRepository.Update(dbCustomer);
 			return new CustomerResponseData
 			{
 				Id = dbCustomer.Id,

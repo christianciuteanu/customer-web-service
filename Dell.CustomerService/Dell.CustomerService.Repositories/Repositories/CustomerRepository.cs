@@ -6,7 +6,7 @@ namespace Dell.CustomerService.Domain.Repositories
 {
 	public class CustomerRepository : GenericRepository<Customer>, ICustomerRepository
 	{
-		public CustomerRepository(CustomersDbContext dbContext) : base(dbContext)
+		public CustomerRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
 		{ }
 
 

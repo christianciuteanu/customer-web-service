@@ -1,34 +1,30 @@
 ﻿using System.Threading.Tasks;
 using Dell.CustomerService.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dell.CustomerService.Domain
 {
 	public class UnitOfWork : IUnitOfWork
 	{
-		private readonly CustomersDbContext _customersDbContext;
 		private ICustomerRepository _customerRepository;
 
-		public UnitOfWork(CustomersDbContext customersDbContext)
+		public DbContext Context { get; }
+
+		public UnitOfWork(DbContext context)
 		{
-			_customersDbContext = customersDbContext;
+			Context = context;
 		}
-		
-		public ICustomerRepository CustomerRepository
-		{
-			get
-			{
-				return _customerRepository = _customerRepository ?? new CustomerRepository(_customersDbContext);
-			}
-		}
+
+		public ICustomerRepository CustomerRepository => _customerRepository ?? new CustomerRepository(this);
 
 		public async Task SaveAsync()
 		{
-			await _customersDbContext.SaveChangesAsync();
+			await Context.SaveChangesAsync();
 		}
 
 		public void Dispose()
 		{
-			_customersDbContext.Dispose();
+			Context.Dispose();
 		}
 	}
 }

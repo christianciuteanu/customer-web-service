@@ -8,37 +8,39 @@ namespace Dell.CustomerService.Domain.Repositories
 {
 	public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class, IEntity
 	{
-		private readonly CustomersDbContext _dbContext;
+		private readonly IUnitOfWork _unitOfWork;
 
-		public GenericRepository(CustomersDbContext dbContext)
+		public GenericRepository(IUnitOfWork unitOfWork)
 		{
-			_dbContext = dbContext;
+			_unitOfWork = unitOfWork;
 		}
 
 		public IQueryable<TEntity> GetAll()
 		{
-			return _dbContext.Set<TEntity>().AsNoTracking();
+			return _unitOfWork.Context.Set<TEntity>().AsNoTracking();
 		}
 
 		public async Task<TEntity> GetById(Guid id)
 		{
-			return await _dbContext.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
+			return await _unitOfWork.Context.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
 		}
 
 		public async Task Create(TEntity entity)
 		{
-			await _dbContext.Set<TEntity>().AddAsync(entity);
+			await _unitOfWork.Context.Set<TEntity>().AddAsync(entity);
+			await _unitOfWork.SaveAsync();
 		}
 
-		public async Task Update(Guid id, TEntity entity)
+		public async Task Update(TEntity entity)
 		{
-			_dbContext.Set<TEntity>().Update(entity);
+			_unitOfWork.Context.Set<TEntity>().Update(entity);
+			await _unitOfWork.SaveAsync();
 		}
 
 		public async Task Delete(Guid id)
 		{
-			var entity = await _dbContext.Set<TEntity>().FindAsync(id);
-			_dbContext.Set<TEntity>().Remove(entity);
+			var entity = await _unitOfWork.Context.Set<TEntity>().FindAsync(id);
+			_unitOfWork.Context.Set<TEntity>().Remove(entity);
 		}
 	}
 }
