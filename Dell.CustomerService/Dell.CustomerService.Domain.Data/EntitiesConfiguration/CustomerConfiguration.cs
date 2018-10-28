@@ -1,15 +1,16 @@
 ﻿using Dell.CustomerService.Domain.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Dell.CustomerService.Domain.Data.EntitiesConfiguration
 {
-	public class CustomerConfiguration
+	public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
 	{
-		public CustomerConfiguration(EntityTypeBuilder<Customer> entityBuilder)
+		public void Configure(EntityTypeBuilder<Customer> builder)
 		{
-			entityBuilder.HasKey(t => t.Id);
-			entityBuilder.Property(t => t.Email).IsRequired();
-			entityBuilder.Property(t => t.Name).IsRequired();
+			builder.HasKey(t => t.Id);
+			builder.Property(t => t.Email).IsRequired();
+			builder.Property(t => t.Name).IsRequired();
 		}
 	}
 }

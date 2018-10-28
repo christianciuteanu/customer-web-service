@@ -1,5 +1,4 @@
-﻿using Dell.CustomerService.Domain.Data.Entities;
-using Dell.CustomerService.Domain.Data.EntitiesConfiguration;
+﻿using Dell.CustomerService.Domain.Data.EntitiesConfiguration;
 using Microsoft.EntityFrameworkCore;
 
 namespace Dell.CustomerService.Domain
@@ -12,8 +11,7 @@ namespace Dell.CustomerService.Domain
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
 			base.OnModelCreating(builder);
-			new CustomerConfiguration(builder.Entity<Customer>());
-
+			builder.ApplyConfiguration(new CustomerConfiguration());
 		}
 	}
 }
