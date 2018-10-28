@@ -1,7 +1,9 @@
 using System;
+using System.Threading.Tasks;
 using Dell.CustomerService.Domain;
 using Dell.CustomerService.Domain.Data.Entities;
 using Dell.CustomerService.Web.ApiContracts.Customers;
+using Dell.CustomerService.Web.ApiServices;
 using Moq;
 using NUnit.Framework;
 
@@ -10,31 +12,72 @@ namespace Dell.Customers.Tests
 	[TestFixture]
 	public class CustomerServiceTests
 	{
-		[Test]
-		public void ServiceCreatesOrUpdatesCustomer()
+		private Mock<IUnitOfWork> _mockUnitOfWork;
+		private Mock<ICustomerService> _mockCustomerService;
+		private CustomerService.Web.ApiServices.Services.CustomerService _service;
+
+		[SetUp]
+		public void Setup()
 		{
-			var repoMock = new Mock<IUnitOfWork>();
+			_mockUnitOfWork = new Mock<IUnitOfWork>();
+			_mockCustomerService = new Mock<ICustomerService>();
+			_service = new CustomerService.Web.ApiServices.Services.CustomerService(_mockUnitOfWork.Object);
+		}
+
+		[Test]
+		public void AddUpdateCustomerAsyncShouldThrowNullReferenceExceptionWithEmptyEmail()
+		{
+			//Arrange
 			var requestData = new CustomerRequestData
 			{
-				Email = "Customer 1",
-				Name = "customer1@test.ro"
+				Email = "",
+				Name = "Customer 1"
 			};
-			var repoResponseData = new Customer
+			
+			//Act 
+			var result = _service.AddUpdateCustomerAsync(requestData);
+
+			//Assert
+			Assert.ThrowsAsync<NullReferenceException>(() => result);
+		}
+
+		[Test]
+		public void AddUpdateCustomerAsyncShouldThrowNullReferenceExceptionWithEmptyName()
+		{
+			//Arrange
+			var requestData = new CustomerRequestData
 			{
-				Id = new Guid("0bb2db98-cfda-4a0e-b751-ac1f1d773d09"),
-				Email = "Customer 1",
-				Name = "customer1@test.ro"
+				Email = "customer1@test.ro",
+				Name = ""
 			};
 
-			repoMock.Setup(r => r.CustomerRepository.GetCustomerByEmailAsync(requestData.Email)).ReturnsAsync(repoResponseData);
+			//Act 
+			var result = _service.AddUpdateCustomerAsync(requestData);
 
-			var service = new CustomerService.Web.ApiServices.Services.CustomerService(repoMock.Object);
+			//Assert
+			Assert.ThrowsAsync<NullReferenceException>(() => result);
+		}
 
-			var response = service.AddUpdateCustomerAsync(requestData).Result;
+		[Test]
+		public void AddUpdateCustomerAsyncShouldAddNewCustomer()
+		{
+			//Arrange
+			_mockUnitOfWork.Setup(uow => uow.CustomerRepository.GetCustomerByEmailAsync("customer1@test.ro")).ReturnsAsync(new Customer
+			{
+				Id = new Guid("e0c783fb-a4db-4108-bb36-36d507750b52"),
+				Email = "customer1@test.ro",
+				Name = "Customer 1"
+			});
 
-			Assert.AreEqual(response.Id, repoResponseData.Id);
-			Assert.AreEqual(response.Email, repoResponseData.Email);
-			Assert.AreEqual(response.Name, repoResponseData.Name);
+			//Act 
+			var result = _service.AddUpdateCustomerAsync(new CustomerRequestData
+			{
+				Email = "customer1@test.ro",
+				Name = "Customer 1"
+			}).Result;
+
+			//Assert
+			Assert.AreEqual(result.Id, new Guid("e0c783fb-a4db-4108-bb36-36d507750b52"));
 		}
 	}
 }
